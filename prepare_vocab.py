@@ -47,7 +47,7 @@ def main():
         train_tokens, test_tokens = [[t.lower() for t in tokens] for tokens in\
                 (train_tokens, test_tokens)]
 
-    # counters
+    # counters 计算每种元素出现的次数
     token_counter = Counter(train_tokens+test_tokens)
     pos_counter = Counter(train_pos+test_pos)
     dep_counter = Counter(train_dep+test_dep)

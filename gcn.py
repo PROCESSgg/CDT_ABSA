@@ -7,6 +7,7 @@ from tree import Tree, head_to_tree, tree_to_adj
 
 class GCNClassifier(nn.Module):
     def __init__(self, args, emb_matrix=None):
+        #super()调用父类的一个方法
         super().__init__()
         in_dim = args.hidden_dim
         self.args = args
