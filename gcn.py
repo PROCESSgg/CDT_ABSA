@@ -26,6 +26,7 @@ class GCNAbsaModel(nn.Module):
         self.emb_matrix = emb_matrix
 
         # create embedding layers
+        #args.tok_size单词总维度，也就是有多少个token;args.emb_dim是每个向量的维度;padding_idx是在不等长的文本上补0
         self.emb = nn.Embedding(args.tok_size, args.emb_dim, padding_idx=0)
         if emb_matrix is not None:
             self.emb.weight = nn.Parameter(emb_matrix.cuda(), requires_grad=False)
@@ -44,6 +45,7 @@ class GCNAbsaModel(nn.Module):
         def inputs_to_tree_reps(head, words, l):
             trees = [head_to_tree(head[i], words[i], l[i]) for i in range(len(l))]
             adj = [tree_to_adj(maxlen, tree, directed=self.args.direct, self_loop=self.args.loop).reshape(1, maxlen, maxlen) for tree in trees]
+            #np.concatenate在axis轴上进行拼接，其他轴上维度必须一致
             adj = np.concatenate(adj, axis=0)
             adj = torch.from_numpy(adj)
             return adj.cuda()
@@ -52,6 +54,7 @@ class GCNAbsaModel(nn.Module):
         h = self.gcn(adj, inputs)
         
         # avg pooling asp feature
+        #unsqueeze主要是给指定位置增加一维
         asp_wn = mask.sum(dim=1).unsqueeze(-1)                        # aspect words num
         mask = mask.unsqueeze(-1).repeat(1,1,self.args.hidden_dim)    # mask for h
         outputs = (h*mask).sum(dim=1) / asp_wn                        # mask h
