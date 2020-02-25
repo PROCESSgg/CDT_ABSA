@@ -52,7 +52,9 @@ def main():
     pos_counter = Counter(train_pos+test_pos)
     dep_counter = Counter(train_dep+test_dep)
     max_len = max(train_max_len, test_max_len)
+    #位置索引
     post_counter = Counter(list(range(-max_len, max_len)))
+    #极性索引
     pol_counter = Counter(['positive', 'negative', 'neutral'])
 
     # build vocab
@@ -85,6 +87,7 @@ def load_tokens(filename):
             dep.extend(d['deprel'])
             max_len = max(len(d['token']), max_len)
     print("{} tokens from {} examples loaded from {}.".format(len(tokens), len(data), filename))
+    #返回所有的tokens，POS词性标注？dep依存句法？和token的最大长度
     return tokens, pos, dep, max_len
 
 if __name__ == '__main__':
