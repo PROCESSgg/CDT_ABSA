@@ -14,6 +14,7 @@ class DataLoader(object):
         self.raw_data = data
         
         # preprocess data
+        #将str根据词库索引转换成数字
         data = self.preprocess(data, vocab, args)
 
         # labels
@@ -64,7 +65,7 @@ class DataLoader(object):
                        +[1 for _ in range(aspect['from'], aspect['to'])] \
                        +[0 for _ in range(aspect['to'], length)]
 
-                # mapping token
+                # mapping token  get(要查找的键值，查找不到要返回的值)
                 tok = [token_vocab.stoi.get(t, token_vocab.unk_index) for t in tok]
                 # mapping aspect
                 asp = [token_vocab.stoi.get(t, token_vocab.unk_index) for t in asp]
@@ -74,6 +75,7 @@ class DataLoader(object):
                 pos = [pos_vocab.stoi.get(t, pos_vocab.unk_index) for t in pos]
                 # mapping head to int
                 head = [int(x) for x in head]
+                #any函数，如果全部为false则返回false否则返回TRUE
                 assert any([x == 0 for x in head])
                 # mapping deprel 
                 deprel = [dep_vocab.stoi.get(t, dep_vocab.unk_index) for t in deprel]
