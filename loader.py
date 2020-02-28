@@ -104,9 +104,10 @@ class DataLoader(object):
             raise TypeError
         if key < 0 or key >= len(self.data):
             raise IndexError
-
+        #batch [(),(),...,()]
         batch = self.data[key]
         batch_size = len(batch)
+        #举个例子，zip(*)怎么用，[(1, 2, 3), (3, 4，5)] -》[(1, 3), (2, 4), (3, 5)],本来batch里面有batch_size个样本，现在
         batch = list(zip(*batch))
         
         # sort all fields by lens for easy RNN operations

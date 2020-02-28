@@ -20,7 +20,7 @@ class Tree(object):
         child.parent = self
         self.num_children += 1
         self.children.append(child)
-
+    #_xxx被看作是“私有 的”，在模块或类外不可以使用。当变量是私有的时候，用_xxx 来表示变量是很好的习惯
     def size(self):
         if getattr(self,'_size'):
             return self._size
